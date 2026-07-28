@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://vickatz.com/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://vickatz.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vickatz.com/en/index.html"/>
+  </url>
+  <url>
+    <loc>https://vickatz.com/faq.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://vickatz.com/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vickatz.com/en/faq.html"/>
+  </url>
+  <url>
+    <loc>https://vickatz.com/background.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://vickatz.com/background.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vickatz.com/en/background.html"/>
+  </url>
+  <url>
+    <loc>https://vickatz.com/en/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://vickatz.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vickatz.com/en/index.html"/>
+  </url>
+  <url>
+    <loc>https://vickatz.com/en/faq.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://vickatz.com/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vickatz.com/en/faq.html"/>
+  </url>
+  <url>
+    <loc>https://vickatz.com/en/background.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://vickatz.com/background.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vickatz.com/en/background.html"/>
+  </url>
+</urlset>

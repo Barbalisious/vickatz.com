@@ -4,8 +4,9 @@
   --surface: #F3E4C6;     /* light tan surface (cards, chips) */
   --text: #2B1E14;        /* warm near-black brown, body text */
   --text-muted: #6B5A44;  /* warm muted brown-gray */
-  --accent: #E2733A;      /* coral-orange, primary accent */
+  --accent: #E2733A;      /* coral-orange, primary accent (backgrounds/buttons only) */
   --accent-dark: #C25A26; /* darker coral, hover state */
+  --accent-text: #A8451A; /* accent text on light bg — meets WCAG AA 4.5:1 (accent alone is only 2.82:1) */
   --olive: #55552B;       /* olive green, secondary accent */
   --brick: #6E2A1C;       /* dark brick red, dramatic accent */
   --dark-bg: #1E1712;     /* near-black warm brown, dark sections */
@@ -120,14 +121,14 @@ nav.main-nav a {
   display: block;
 }
 
-nav.main-nav a:hover { opacity: 1; color: var(--accent); }
+nav.main-nav a:hover { opacity: 1; color: var(--accent-text); }
 
 nav.main-nav a.lang-switch {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 5px 14px;
   font-size: 0.82rem;
-  color: var(--accent);
+  color: var(--accent-text);
   opacity: 1;
 }
 
@@ -139,7 +140,7 @@ nav.main-nav a.lang-switch:hover {
 
 nav.main-nav a.nav-link.active {
   opacity: 1;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 nav.main-nav a.nav-cta {
@@ -452,7 +453,7 @@ section.section-dark .btn {
 }
 
 .contact-list a {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
   font-weight: 700;
 }
@@ -470,7 +471,7 @@ section.section-dark .btn {
 }
 
 .cta-line a {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
 }
 
@@ -645,6 +646,49 @@ section.section-dark .btn {
 .site-footer .footer-bottom a {
   color: #B8A688;
   text-decoration: none;
+}
+
+/* ---------- WhatsApp floating button ---------- */
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.whatsapp-float:hover,
+.whatsapp-float:focus-visible {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.whatsapp-float svg {
+  width: 30px;
+  height: 30px;
+  fill: #fff;
+}
+
+@media (max-width: 600px) {
+  .whatsapp-float {
+    bottom: 16px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .whatsapp-float svg {
+    width: 26px;
+    height: 26px;
+  }
 }
 
 .site-footer .footer-bottom a:hover {
