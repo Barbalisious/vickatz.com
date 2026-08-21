@@ -6,10 +6,11 @@
  * מוטמע בכל דפי האתר (עברית ואנגלית) ע"י תג <script> יחיד לפני </body>.
  * לא תלוי בשום ספרייה חיצונית.
  *
- * מיקום מכוון: bottom-left (מול הבאנר של טלגרם שיושב ב-bottom-right) - זה
- * שלב ביניים מכוון: לפי מסמך_מסירה_עדכון_עברית_אנגלית_19_8.md, היררכיית
- * הערוצים (web-chat כ-CTA מרכזי, טלגרם לפוטר) מתעדכנת רק אחרי שה-widget
- * הזה גמור ומושלם - לא כאן.
+ * כפתור הפתיחה (ה-CTA הצף, bottom-right) הוא לא נוצר כאן ב-JS - הוא כבר
+ * קיים ב-HTML של כל עמוד כ-<button id="webchat-cta-banner" class="chat-cta-banner">
+ * (עד 19.8.2026 זה היה קישור ישיר לטלגרם - עדכון היררכיית הערוצים מ-20.8.2026
+ * הפך אותו לכפתור פתיחת השיחה כאן באתר; טלגרם עצמו זז לאזכור משני בפוטר).
+ * הסקריפט הזה רק מאתר את הכפתור הקיים ומחבר אליו את הלוגיקה.
  *
  * מזהה שיחה (session_id): מזהה אנונימי שנוצר בדפדפן ונשמר ב-localStorage,
  * מקביל ל-chat_id של טלגרם - אבל בלי שום פלטפורמה חיצונית שמנפיקה אותו.
@@ -38,7 +39,6 @@
 
   var STRINGS = isHebrew
     ? {
-        launcherLabel: "שוחחו עם רובוט דינרו",
         title: "רובוט דינרו",
         placeholder: "כתבו הודעה...",
         send: "שליחה",
@@ -48,7 +48,6 @@
         close: "סגירה",
       }
     : {
-        launcherLabel: "Chat with Robot Dinero",
         title: "Robot Dinero",
         placeholder: "Type a message...",
         send: "Send",
@@ -101,36 +100,23 @@
     }
   }
 
-  function buildLauncherIcon() {
-    // אייקון "בועת שיחה" פשוט, באותו סגנון של שאר אייקוני הניווט באתר
-    // (SVG חד-צבעי, fill="currentColor").
-    var svgNs = "http://www.w3.org/2000/svg";
-    var svg = document.createElementNS(svgNs, "svg");
-    svg.setAttribute("viewBox", "0 -960 960 960");
-    svg.setAttribute("fill", "currentColor");
-    svg.setAttribute("aria-hidden", "true");
-    svg.setAttribute("class", "webchat-launcher-icon");
-    var path = document.createElementNS(svgNs, "path");
-    path.setAttribute(
-      "d",
-      "M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"
-    );
-    svg.appendChild(path);
-    return svg;
-  }
-
   function init() {
+    // הכפתור הצף כבר קיים ב-HTML של העמוד (חלק מהפוטר, לא נוצר כאן) -
+    // אם הוא לא נמצא (עמוד שלא עודכן וכו'), אין למי לחבר את הפאנל, אז
+    // יוצאים בלי לעשות כלום (לא קורסים ולא יוצרים UI יתום).
+    var launcher = document.getElementById("webchat-cta-banner");
+    if (!launcher) {
+      return;
+    }
+
     var sessionId = getSessionId();
     var history = loadHistory();
     var sending = false;
     var typingEl = null;
     var panelOpen = false;
 
-    var launcher = document.createElement("button");
-    launcher.type = "button";
-    launcher.className = "webchat-launcher";
-    launcher.setAttribute("aria-label", STRINGS.launcherLabel);
-    launcher.appendChild(buildLauncherIcon());
+    launcher.setAttribute("aria-haspopup", "dialog");
+    launcher.setAttribute("aria-expanded", "false");
 
     var panel = document.createElement("div");
     panel.className = "webchat-panel";
@@ -172,7 +158,6 @@
     panel.appendChild(messagesEl);
     panel.appendChild(form);
 
-    document.body.appendChild(launcher);
     document.body.appendChild(panel);
 
     function renderMessage(role, text) {
