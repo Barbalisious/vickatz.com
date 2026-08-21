@@ -707,3 +707,187 @@ section.section-dark .btn {
 .site-footer .footer-bottom a:hover {
   color: #F0A860;
 }
+
+/* ---------- Web-chat widget ---------- */
+/* מיקום מכוון: bottom-left, מול הבאנר של טלגרם (bottom-right) - שלב
+   ביניים לפני עדכון היררכיית הערוצים (ראו הערה ב-webchat-widget.js). */
+.webchat-launcher {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 999;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.webchat-launcher:hover,
+.webchat-launcher:focus-visible {
+  background: var(--accent-dark);
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.webchat-launcher-icon {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+
+.webchat-panel {
+  position: fixed;
+  bottom: 92px;
+  left: 24px;
+  z-index: 999;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  height: 460px;
+  max-height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 34px rgba(43, 30, 20, 0.28);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.webchat-panel.webchat-panel-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.webchat-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--dark-bg);
+  color: var(--dark-text);
+  font-weight: 700;
+  font-size: var(--fs-small);
+}
+
+.webchat-close {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.8;
+}
+
+.webchat-close:hover { opacity: 1; }
+
+.webchat-messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.webchat-msg {
+  max-width: 82%;
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.webchat-msg-bot {
+  align-self: flex-start;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.webchat-msg-user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+}
+
+.webchat-typing {
+  opacity: 0.75;
+  font-style: italic;
+}
+
+.webchat-form {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.webchat-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  background: #fff;
+  color: var(--text);
+}
+
+.webchat-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.webchat-send {
+  flex: 0 0 auto;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-weight: 700;
+  font-size: var(--fs-small);
+  font-family: var(--font);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.webchat-send:hover { background: var(--accent-dark); }
+
+.webchat-send:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (max-width: 600px) {
+  .webchat-launcher {
+    bottom: 16px;
+    left: 16px;
+  }
+
+  .webchat-panel {
+    bottom: 84px;
+    left: 16px;
+    width: calc(100vw - 32px);
+  }
+}
