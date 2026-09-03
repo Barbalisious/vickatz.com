@@ -100,6 +100,53 @@
     }
   }
 
+  // --- מודעות למקלדת/viewport בנייד --------------------------------------
+  // 100vh בדפדפני מובייל לא מצטמצם כשהמקלדת נפתחת (הוא מחושב לפי
+  // layout viewport, לא לפי מה שבאמת נראה). כדי שהפאנל בנייד (מסך-מלא,
+  // ראו .webchat-panel ב-CSS) תמיד ימלא בדיוק את השטח הנראה, מחשבים כאן
+  // את הגובה האמיתי דרך ה-visualViewport API (נתמך ברוב הדפדפנים המודרניים)
+  // וכותבים אותו כמשתנה CSS (--webchat-vh) על ה-<html>. אם visualViewport
+  // לא קיים (דפדפן ישן) - ה-CSS נופל חזרה ל-100dvh ואז ל-100vh, ראו style.css.
+  var isMobileWidth = window.matchMedia && window.matchMedia("(max-width: 600px)");
+
+  function updateViewportVar() {
+    var vv = window.visualViewport;
+    var h = vv ? vv.height : window.innerHeight;
+    document.documentElement.style.setProperty("--webchat-vh", h + "px");
+  }
+
+  // --- נעילת גלילת הרקע כשהפאנל פתוח (מודל מסך-מלא בנייד) ----------------
+  // בלי זה, גלילה בתוך הפאנל (או מגע על הרקע דרכו) יכולה "לדלוף" ולגלול
+  // גם את העמוד שמאחורי הפאנל - נראה כפערים שמתעדכנים מאחורי הצ'אט.
+  var scrollLockY = 0;
+  var scrollLocked = false;
+
+  function lockBodyScroll() {
+    if (scrollLocked) {
+      return;
+    }
+    scrollLockY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = "fixed";
+    document.body.style.top = "-" + scrollLockY + "px";
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    scrollLocked = true;
+  }
+
+  function unlockBodyScroll() {
+    if (!scrollLocked) {
+      return;
+    }
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, scrollLockY);
+    scrollLocked = false;
+  }
+
   function init() {
     // הכפתור הצף כבר קיים ב-HTML של העמוד (חלק מהפוטר, לא נוצר כאן) -
     // אם הוא לא נמצא (עמוד שלא עודכן וכו'), אין למי לחבר את הפאנל, אז
@@ -182,8 +229,24 @@
       panelOpen = open;
       panel.classList.toggle("webchat-panel-open", open);
       launcher.setAttribute("aria-expanded", open ? "true" : "false");
+
+      var mobile = isMobileWidth && isMobileWidth.matches;
       if (open) {
+        if (mobile) {
+          updateViewportVar();
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener("resize", updateViewportVar);
+            window.visualViewport.addEventListener("scroll", updateViewportVar);
+          }
+          lockBodyScroll();
+        }
         input.focus();
+      } else {
+        if (window.visualViewport) {
+          window.visualViewport.removeEventListener("resize", updateViewportVar);
+          window.visualViewport.removeEventListener("scroll", updateViewportVar);
+        }
+        unlockBodyScroll();
       }
     }
 

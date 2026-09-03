@@ -862,9 +862,24 @@ section.section-dark .btn {
 }
 
 @media (max-width: 600px) {
+  /* בנייד הפאנל הופך למודל מסך-מלא, ולא קופסה צפה עם bottom/height קבועים.
+     הסיבה: 100vh בדפדפני מובייל מחושב לפי ה-layout viewport, שלא מצטמצם
+     כשהמקלדת נפתחת - אז max-height ישן (calc(100vh - 140px)) נשאר "גבוה"
+     מדי ביחס למה שבאמת נראה מעל המקלדת, וההאדר + ההודעה הראשונה נדחקים
+     מעל לשטח הנראה. עם inset:0 + height מבוסס --webchat-vh (מחושב ב-JS
+     דרך visualViewport, ראו webchat-widget.js) הפאנל תמיד ממלא בדיוק את
+     השטח הנראה בפועל, מקלדת פתוחה או לא. */
   .webchat-panel {
-    bottom: 84px;
-    right: 16px;
-    width: calc(100vw - 32px);
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    height: 100vh; /* fallback לדפדפנים ישנים */
+    height: 100dvh; /* דורס אם dvh נתמך */
+    height: var(--webchat-vh, 100dvh); /* דורס אם JS חישב ערך מדויק */
+    max-height: none;
+    border-radius: 0;
   }
 }
