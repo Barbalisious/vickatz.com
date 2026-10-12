@@ -43,7 +43,7 @@
         placeholder: "כתבו הודעה...",
         send: "שליחה",
         welcome: "היי! אני רובוט דינרו 🤖 אפשר לשאול אותי כל שאלה על ויקי ומה שהיא עושה.",
-        wakingUp: "השרת קצת ישן, מעיר אותו... זה יכול לקחת עד דקה בפעם הראשונה 🙂",
+        wakingUp: "הגלגלים מסתובבים, עוד רגע אני חוזר אליך ⚙️",
         error: "אופס, הייתה תקלה טכנית. אפשר לנסות שוב?",
         close: "סגירה",
       }
@@ -52,7 +52,7 @@
         placeholder: "Type a message...",
         send: "Send",
         welcome: "Hi! I'm Robot Dinero 🤖 Ask me anything about Vicki and what she does.",
-        wakingUp: "The server's waking up, this can take up to a minute the first time 🙂",
+        wakingUp: "Gears are turning, back with you in a moment ⚙️",
         error: "Oops, something went wrong on my end. Want to try again?",
         close: "Close",
       };
